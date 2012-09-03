@@ -34,10 +34,10 @@ mkcall(M, F, As) ->             {call,0,{remote,0,mkatom(M),mkatom(F)}, As}.
 mkcase(Expr,CL) ->              {'case',0,Expr,CL}.
 mkif(CL) ->                     {'if',0,CL}.
 mkvar(V) ->                     {var,0,V}.
-mkatom(A) when atom(A) ->       {atom,0,A};
-mkatom(A) when list(A) ->       {atom,0,list_to_atom(A)}.
-mkint(X) when integer(X) ->     {integer,0,X}.
-mkfloat(X) when float(X) ->     {float,0,X}.
+mkatom(A) when is_atom(A) ->    {atom,0,A};
+mkatom(A) when is_list(A) ->    {atom,0,list_to_atom(A)}.
+mkint(X) when is_integer(X) ->  {integer,0,X}.
+mkfloat(X) when is_float(X) ->  {float,0,X}.
 mkop(Op,L,R) ->                 {op,0,Op,L,R}.
 mkop(Op,X) ->                   {op,0,Op,X}.
 mkclause(H,G,B) ->              {clause,0,H,G,B}.
@@ -285,7 +285,7 @@ enc_type({varray,Max,Type}, V, R0) ->
     E4 = case Max of
 	     infinity ->
 		 mkblock([Match, mklist([E2, E3])]);
-	     M when integer(M) ->
+	     M when is_integer(M) ->
 		 mkblock([Match,
 			  mkif([mkclause([],
 					 [mkop('=<', Len, mkint(M))],
@@ -337,7 +337,7 @@ enc_type({union, {{DId,DT}, Elems}}, V, R) ->
 			 {Enc,RR} = enc_type(T, V1, R0),
 			 ETag =
 			     if
-				 integer(Tag) -> mkint(Tag);
+				 is_integer(Tag) -> mkint(Tag);
 				 true -> mkatom(Tag)
 			     end,
 			 {[mkclause([ETag],[],[Enc]) | CL0], RR}
@@ -709,7 +709,7 @@ dec_compound({union, X={{DId,DT}, Elems}}, I_Bin, I_Off, R0) ->
 		  {Dec, RR1} =
 		      mk_type_match(Type,I_Bin,T_Off,Val,O_NOff,RR0),
 		  ETag = mkint(UTagV),
-		  TagRet = if integer(UTag) -> mkint(UTag);
+		  TagRet = if is_integer(UTag) -> mkint(UTag);
 			      true -> mkatom(UTag)
 			   end,
 		  Ret = mktuple([mktuple([TagRet, Val]), O_NOff]),

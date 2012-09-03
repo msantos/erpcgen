@@ -9,16 +9,16 @@
 -export([format_error/1]).
 
 %% read file and return tokens
-file(File) when atom(File) ->
+file(File) when is_atom(File) ->
     file(atom_to_list(File));
-file(File) when list(File) ->
+file(File) when is_list(File) ->
     case file:read_file(File) of
 	{ok, Bin} ->
 	    scan(File, binary_to_list(Bin));
 	Error -> Error
     end.
 
-string(String) when list(String) ->
+string(String) when is_list(String) ->
     scan("", String).
 
 scan(File, String) ->

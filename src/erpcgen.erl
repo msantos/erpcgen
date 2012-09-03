@@ -69,7 +69,7 @@ file(In, Out, Opts) ->
     file1(In, Out, trans_opts(Opts)).
 
 file1(In, Out, {error,Reason}) -> {error, Reason};
-file1(In, Out, {ok, Opts}) when atom(In), atom(Out) ->
+file1(In, Out, {ok, Opts}) when is_atom(In), is_atom(Out) ->
     File = atom_to_list(In) ++ ".x",
     Base = atom_to_list(Out),
     case xdr_scan:file(File) of
@@ -135,7 +135,7 @@ tr_opts([], L) ->
 	false -> {ok,L}
     end.
 
-add_opt(Opt, L) when atom(Opt) ->
+add_opt(Opt, L) when is_atom(Opt) ->
     case member(Opt, L) of
 	true -> L;
 	false -> [Opt | L]
@@ -274,11 +274,11 @@ gen_io_list_len(true, Fd) ->
 	      "io_list_len([H|T], N) ->\n"
 	      "  if\n"
 	      "    H >= 0, H =< 255 -> io_list_len(T, N+1);\n"
-	      "    list(H) -> io_list_len(T, io_list_len(H,N));\n"
-	      "    binary(H) -> io_list_len(T, size(H) + N);\n"
+	      "    is_list(H) -> io_list_len(T, io_list_len(H,N));\n"
+	      "    is_binary(H) -> io_list_len(T, size(H) + N);\n"
 	      "    true -> exit({xdr, opaque})\n"
 	      "  end;\n"
-	      "io_list_len(H, N) when binary(H) ->\n"
+	      "io_list_len(H, N) when is_binary(H) ->\n"
 	      "  size(H) + N;\n"
 	      "io_list_len([], N) ->\n"
 	      "N.\n", []);
@@ -653,7 +653,7 @@ trans_type({float,_},Env) -> float;
 trans_type({double,_},Env) -> double;
 trans_type({bool,_},Env) -> bool;
 trans_type({void,_},Env) -> void;
-trans_type({type,Line,Id}, Env) when list(Id) ->
+trans_type({type,Line,Id}, Env) when is_list(Id) ->
     case lookup(Id, Env) of
 	{_,type,Type1} -> true;
 	_ -> error(Line, "type ~s undefined", [Id])
@@ -721,8 +721,8 @@ trans_tag(default) -> default.
 %%
 trans_tag_type("TRUE", _, _, bool) ->   {true,1};
 trans_tag_type("FALSE", _, _, bool) -> {false,0};
-trans_tag_type(N, _, _, int) when integer(N) -> {N,N};
-trans_tag_type(N, Line, _, unsigned_int) when integer(N) ->
+trans_tag_type(N, _, _, int) when is_integer(N) -> {N,N};
+trans_tag_type(N, Line, _, unsigned_int) when is_integer(N) ->
     if N < 0 -> error(Line, "bad tag ~w for unsigned type", [N]);
 	true -> true
     end,
