@@ -1,15 +1,9 @@
-REBAR=$(shell which rebar || echo ./rebar)
+REBAR ?= rebar3
 
 all: compile
 
-./rebar:
-	erl -noshell -s inets start -s ssl start \
-		-eval 'httpc:request(get, {"https://github.com/downloads/basho/rebar/rebar", []}, [], [{stream, "./rebar"}])' \
-		-s inets stop -s init stop
-	chmod +x ./rebar
-
-compile: $(REBAR)
+compile:
 	@$(REBAR) compile
 
-clean: $(REBAR)
+clean:
 	@$(REBAR) clean
