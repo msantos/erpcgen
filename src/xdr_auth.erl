@@ -27,11 +27,9 @@ get_secret_key(ID) ->
     0.
 
 generate_secret_key() ->
-    {A,B,C} = erlang:now(),
-    random:seed(A,B,C),
     lists:foldl(
       fun(_, Key) ->
-	      (Key bsl 8) + (random:uniform(256)-1)
+	      (Key bsl 8) + (rand:uniform(256)-1)
       end, 0, lists:seq(1,24)).
     
 %%
