@@ -6,7 +6,7 @@ Erlang [external data representation](https://en.wikipedia.org/wiki/External_Dat
 Build
 -----
 
-  $ rebar3 compile
+    $ rebar3 compile
 
 Examples
 --------
@@ -121,9 +121,9 @@ This version of erpcgen is a fork from [jungerl](https://github.com/gebi/jungerl
 
 The history of _erpcgen_ was discussed in [this thread](http://erlang.org/pipermail/erlang-questions/2012-December/071012.html). [Tony Rogvall](http://erlang.org/pipermail/erlang-questions/2012-December/071013.html) is the original author:
 
-  This code was initially written by me (Tony Rogvall). With improvements
-  by Martin Björklund, Luke Gorrie wrote the NFS  examples. Later the
-  code was "stolen" by Sendmail.
+    This code was initially written by me (Tony Rogvall). With improvements
+    by Martin Björklund, Luke Gorrie wrote the NFS  examples. Later the
+    code was "stolen" by Sendmail.
 
 Handling char/short
 -------------------
