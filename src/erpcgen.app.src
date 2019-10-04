@@ -1,13 +1,8 @@
-{application, erpcgen,
- [
-  {description, "Erlang RPC stub generator 'erpcgen'"},
-  {vsn, "1.1.1"},
-  {registered, []},
-  {applications, [kernel, stdlib]},
-
-  {licenses, ["BSD"]},
-  {maintainers, ["Michael Santos"]},
-  {links, [
-      {"Github", "https://github.com/msantos/erpcgen"}
-   ]}
-}.
+{application,erpcgen,
+             [{description,"Erlang RPC stub generator 'erpcgen'"},
+              {vsn,"1.1.1"},
+              {registered,[]},
+              {applications,[kernel,stdlib]},
+              {licenses,["BSD"]},
+              {maintainers,["Michael Santos"]},
+              {links,[{"Github","https://github.com/msantos/erpcgen"}]}]}.
